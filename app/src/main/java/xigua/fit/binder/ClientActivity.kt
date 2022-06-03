@@ -14,6 +14,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import xigua.fit.binder.aidl.AidlInterface
 import xigua.fit.binder.databinding.ActivityMainBinding
 
 class ClientActivity : AppCompatActivity() {
@@ -23,21 +24,16 @@ class ClientActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
-
         val serviceConnection = object : ServiceConnection {
 
             override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
-                val remoteInterface = Stub.asInterface(p1)
-                remoteInterface.sendMessage("Connected")
+                val remoteInterface = AidlInterface.Stub.asInterface(p1)
+                remoteInterface.print("connected")
             }
 
             override fun onServiceDisconnected(p0: ComponentName?) {
             }
         }
-
         bindService(
             Intent(this, RemoteService::class.java),
             serviceConnection,
